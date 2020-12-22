@@ -1,0 +1,60 @@
+\DeclareDelimFormat{finalnamedelim}{\addspace\&\space}
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+
+\DeclareFieldFormat{year}{\mkbibparens{#1}}
+\DeclareFieldFormat[movie]{entrysubtype}{\mkbibbrackets{#1}}
+
+\DeclareBibliographyDriver{movie}{%
+    \ifnamesequal{author}{bookauthor}{\printnames{author}%
+    \addnbspace(Producer/Director)}
+    {\printnames{bookauthor}%
+    \ifnumgreater{\value{bookauthor}}{1}{%
+    \addnbspace(Producers), \& %
+    }{%
+    \addnbspace(Producer), \& %
+    }%
+    \printnames{author}%
+    \ifnumgreater{\value{author}}{1}{%
+    \addnbspace(Directors)%
+    }{%
+    \addnbspace(Director)%
+    }%
+    }
+    \newunit\newblock
+    \printtext[parens]{%
+    \printfield{year}}%
+    \newunit\newblock
+    \printfield{title}%
+    \setunit*{\addnbspace}
+    \iffieldundef{howpublished}
+    {\printfield{entrysubtype}}
+    {[\thefield{entrysubtype}; \printfield{howpublished}]}
+    \iffieldundef{issue}{}
+    {\newunit\newblock
+    \printfield{issue}}
+    \newunit\newblock
+    \printlist{location}%
+    : \printlist{publisher}
+    \finentry
+}
+
+\DeclareFieldFormat[software]{entrysubtype}{\mkbibbrackets{#1}}
+\DeclareFieldFormat[software]{version}{\mkbibparens{Version #1}}
+\DeclareBibliographyDriver{software}{%
+    \printnames{author}%
+    \newunit\newblock
+    \printfield{year}%
+    \newunit\newblock
+    \printfield{title}%
+    \setunit*{\addnbspace}
+    \printfield{version}
+    \printfield{entrysubtype}
+    \newunit\newblock
+    \printlist{location}%
+    : \printlist{publisher}
+    \newunit\newblock
+    \printfield{url}
+    \finentry
+}
+
